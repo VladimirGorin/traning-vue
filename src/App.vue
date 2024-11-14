@@ -1,30 +1,54 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+    <PostForm @createPost="createPost" />
+    <div class="posts">
+        <PostList :posts="posts" />
+    </div>
 </template>
 
+<script>
+import PostForm from '@/components/PostForm.vue';
+import PostList from '@/components/PostList.vue';
+
+export default {
+    components: {
+        PostForm, PostList
+    },
+    data() {
+        return {
+            posts: []
+        }
+    },
+
+    methods: {
+        createPost(post) {
+            this.posts.push(post)
+        }
+    }
+
+}
+
+</script>
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+input,
+button {
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 30px;
+    padding: 30px 40px;
 }
 </style>
