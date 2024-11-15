@@ -1,5 +1,5 @@
 <template>
-    <PostForm @createPost="createPost" />
+    <PostForm @createPost="createPost" @deletePost="deletePost" :deletedStatus="deletedStatus" />
     <div class="posts">
         <PostList :posts="posts" />
     </div>
@@ -15,13 +15,24 @@ export default {
     },
     data() {
         return {
-            posts: []
+            posts: [],
+            deletedStatus: false
         }
     },
 
     methods: {
         createPost(post) {
             this.posts.push(post)
+        },
+        deletePost(postId) {
+            const findPost = this.posts.find((post) => post?.id === postId)
+
+            if (findPost) {
+                this.deletedStatus = true
+                this.posts = this.posts.filter((post) => Number(post.id) !== Number(postId))
+            } else {
+                this.deletedStatus = false
+            }
         }
     }
 
@@ -41,6 +52,7 @@ button {
     width: 100%;
     height: 40px;
     font-size: 20px;
+    padding: 0 10px;
 }
 
 #app {

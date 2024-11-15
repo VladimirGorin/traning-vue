@@ -1,7 +1,5 @@
 <template>
-    <div v-for="(post, index) in posts" :key="index" class="post">
-        <PostItem :post="post" />
-    </div>
+    <PostItem v-for="(post, index) in posts" :key="index" :post="post" />
 </template>
 <script>
 import PostItem from './PostItem.vue';

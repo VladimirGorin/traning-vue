@@ -1,7 +1,17 @@
 <template>
-    <div>
-        <div class="post-title">{{ post.title }}</div>
-        <div class="post-description">{{ post.description }}</div>
+    <div class="post">
+        <div class="post-id">
+            <p>№{{ post?.id }}</p>
+            <br>
+        </div>
+        <div class="post-title">
+            <h4>Заголовок: {{ post.title }}</h4>
+        </div>
+        <div class="post-description">
+            <h4>Описание:</h4>
+            <br>
+            <p>{{ post.description }}</p>
+        </div>
     </div>
 </template>
 <script>
@@ -22,6 +32,6 @@ export default {
 
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 10px;
 }
 </style>
