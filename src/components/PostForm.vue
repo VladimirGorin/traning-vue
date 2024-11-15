@@ -14,7 +14,7 @@
     </form>
 
     <p v-if="postAddStatus" class="alert success">Успешно добавлен!</p>
-    <p v-if="postDeleteStatus" class="alert success">Успешно удалён!un</p>
+    <p v-if="postDeleteStatus" class="alert success">Успешно удалён!</p>
     <p v-if="postDeleteNotFound" class="alert error">
       Пост с таким ID не найден!
     </p>
@@ -23,6 +23,8 @@
   </div>
 </template>
 <script>
+import { nextTick } from 'vue';
+
 export default {
   props: {
     deletedStatus: {
@@ -75,7 +77,7 @@ export default {
         this.fillData();
       }
     },
-    deletePost() {
+    async deletePost() {
       if (this.postDeleteId) {
         if (!isFinite(this.postDeleteId)) {
           this.postDeleteNotNumber = true;
@@ -87,7 +89,9 @@ export default {
 
         this.$emit("deletePost", this.postDeleteId);
 
-        console.log("Статус удаления из пропса:", this.deletedStatus);
+        await nextTick();
+
+
         if (!this.deletedStatus) {
           this.postDeleteNotFound = true;
           setTimeout(() => {
@@ -95,9 +99,6 @@ export default {
           }, 5000);
           return;
         }
-
-        // // Обновляем значение пропса через событие
-        // this.$emit("update:deletedStatus", false);
 
         this.postDeleteId = "";
         this.postDeleteStatus = true;
