@@ -1,5 +1,5 @@
 <template>
-    <PostItem v-for="(post, index) in posts" :key="index" :post="post" />
+    <PostItem @deletePost="$emit('deletePost', post?.id)" v-for="(post) in posts" :key="post.id" :post="post" />
 </template>
 <script>
 import PostItem from './PostItem.vue';
@@ -20,14 +20,6 @@ export default {
 .alert {
     font-size: 19px;
     font-weight: bold;
-}
-
-.alert.success {
-    color: green;
-}
-
-.alert.error {
-    color: red;
 }
 
 .posts {
