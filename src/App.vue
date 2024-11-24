@@ -124,7 +124,7 @@ export default {
 
         async getPosts() {
             try {
-                let posts = await getData("/posts", {_limit: this.paginationSettings.pageLimit, _page:this.paginationSettings.currentPage});
+                let posts = await getData("/posts", { _limit: this.paginationSettings.pageLimit, _page: this.paginationSettings.currentPage });
 
                 posts = posts.map((post) => {
                     post.description = post.body;
@@ -144,13 +144,14 @@ export default {
 
         observePosts() {
             const callback = async (entries, observer) => {
-                if(entries[0].isIntersecting){
-                    this.paginationSettings.currentPage += 1
+                if (entries[0].isIntersecting && this.posts.length === this.paginationSettings.currentPage * this.paginationSettings.pageLimit) {
+                    this.paginationSettings.currentPage++;
 
-                    console.log("Здесь", this.paginationSettings.currentPage)
+                    console.log("Загрузка страницы:", this.paginationSettings.currentPage);
 
-                    await this.getPosts()
+                    await this.getPosts();
                 }
+
             };
 
             const observer = new IntersectionObserver(callback, {
