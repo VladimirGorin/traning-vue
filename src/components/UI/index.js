@@ -1,9 +1,10 @@
-import GreenButton from "./GreenButton.vue"
-import GreenInput from "./GreenInput.vue"
-import GreenPopup from "./GreenPopup.vue"
-import GreenSelect from "./GreenSelect.vue"
-import TextAlertError from "./TextAlertError.vue"
-import TextAlertSuccess from "./TextAlertSuccess.vue"
+import GreenButton from "@/components/UI/GreenButton.vue"
+import GreenInput from "@/components/UI/GreenInput.vue"
+import GreenPopup from "@/components/UI/GreenPopup.vue"
+import GreenSelect from "@/components/UI/GreenSelect.vue"
+import TextAlertError from "@/components/UI/TextAlertError.vue"
+import TextAlertSuccess from "@/components/UI/TextAlertSuccess.vue"
+import GreenLi from "@/components/UI/GreenLi.vue"
 
 
 export default [
@@ -12,5 +13,6 @@ export default [
     GreenInput,
     TextAlertError,
     TextAlertSuccess,
-    GreenSelect
+    GreenSelect,
+    GreenLi
 ]
