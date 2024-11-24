@@ -8,9 +8,11 @@ const api = axios.create({
     },
 })
 
-export const getData = async (method) => {
+export const getData = async (method, params={}) => {
     try {
-        const response = await api.get(method)
+        const response = await api.get(method, {
+            params
+        })
         const data = response.data
 
         return data

@@ -18,6 +18,8 @@
         <p v-if="postsSettings.isPostsLoading">Загрузка постов...</p>
         <PostList v-if="!postsSettings.isPostsLoading" @deletePost="deletePost" :posts="searchInSortedPosts" />
     </div>
+
+    <div style="background-color: black;height: 40px;" ref="observer-posts" class="observer"></div>
 </template>
 
 <script>
@@ -32,13 +34,16 @@ export default {
         PostList,
         PostAlerts,
     },
-    mounted() {
-        this.getPosts();
-    },
+
     data() {
         return {
             popups: {
                 managePostsPopupShow: false,
+            },
+
+            paginationSettings: {
+                currentPage: 1,
+                pageLimit: 10
             },
 
             postsSettings: {
@@ -119,7 +124,7 @@ export default {
 
         async getPosts() {
             try {
-                let posts = await getData("/posts");
+                let posts = await getData("/posts", {_limit: this.paginationSettings.pageLimit, _page:this.paginationSettings.currentPage});
 
                 posts = posts.map((post) => {
                     post.description = post.body;
@@ -129,13 +134,40 @@ export default {
                     return post;
                 });
 
-                this.posts = posts;
+                this.posts = [...this.posts, ...posts];
             } catch (error) {
                 alert(`Произошла ошибка при получении постов: ${error}`);
             } finally {
                 this.postsSettings.isPostsLoading = false;
             }
         },
+
+        observePosts() {
+            const callback = async (entries, observer) => {
+                if(entries[0].isIntersecting){
+                    this.paginationSettings.currentPage += 1
+
+                    console.log("Здесь", this.paginationSettings.currentPage)
+
+                    await this.getPosts()
+                }
+            };
+
+            const observer = new IntersectionObserver(callback, {
+                rootMargin: "0px",
+                threshold: 1.0,
+            });
+
+            observer.observe(this.$refs["observer-posts"])
+
+        },
+    },
+
+    mounted() {
+        this.getPosts().then(() => {
+            this.observePosts();
+        });
+
     },
 
     computed: {
@@ -165,13 +197,12 @@ export default {
                 post.description.toLowerCase().includes(searchQuery)
             );
 
-            const result = [...searchTitle, ...searchDescription];
 
-            const uniqueResults = result.filter((post, index, array) =>
+            const result = [...searchTitle, ...searchDescription].filter((post, index, array) =>
                 index === array.findIndex((p) => p.id === post.id)
             )
 
-            return uniqueResults;
+            return result
         }
 
     }
