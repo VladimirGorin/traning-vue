@@ -15,12 +15,14 @@
       </div>
     </div>
     <div class="post-manage">
-      <GreenButton @click="$emit('deletePost', post?.id)" >Удалить</GreenButton>
+      <GreenButton @click="$router.push(`/posts/${post?.id}`)"
+        >Открыть</GreenButton
+      >
+      <GreenButton @click="$emit('deletePost', post?.id)">Удалить</GreenButton>
     </div>
   </div>
 </template>
 <script>
-
 export default {
   props: {
     post: {
@@ -41,7 +43,10 @@ export default {
   gap: 10px;
 }
 
-.post-manage{
-    width: 15%;
+.post-manage {
+  width: 15%;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
 }
 </style>

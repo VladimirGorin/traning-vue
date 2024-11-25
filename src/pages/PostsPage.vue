@@ -19,7 +19,7 @@
         <PostList v-if="!postsSettings.isPostsLoading" @deletePost="deletePost" :posts="searchInSortedPosts" />
     </div>
 
-    <div ref="observer-posts"></div>
+    <div v-intersection="observePosts" class="observer-posts"></div>
 </template>
 
 <script>
@@ -142,7 +142,7 @@ export default {
             }
         },
 
-        observePosts() {
+        observePosts(element) {
             const callback = async (entries, observer) => {
                 if (entries[0].isIntersecting && this.posts.length === this.paginationSettings.currentPage * this.paginationSettings.pageLimit) {
                     this.paginationSettings.currentPage++;
@@ -159,15 +159,12 @@ export default {
                 threshold: 1.0,
             });
 
-            observer.observe(this.$refs["observer-posts"])
-
+            observer.observe(element)
         },
     },
 
     mounted() {
-        this.getPosts().then(() => {
-            this.observePosts();
-        });
+        this.getPosts();
 
     },
 

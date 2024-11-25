@@ -1,20 +1,15 @@
 <template>
   <div class="navbar">
     <ul>
-      <GreenLi
-        v-for="(route, index) in $router.getRoutes()"
-        :key="index"
-        @click="$router.push(route.path)"
-      >
-        {{ route?.name }}
-      </GreenLi>
+      <GreenLi @click="$router.push('/')">Главная</GreenLi>
+      <GreenLi @click="$router.push('/posts')">Посты</GreenLi>
+      <GreenLi @click="$router.push('/about')">О нас</GreenLi>
     </ul>
   </div>
 </template>
 
 <script>
-export default {
-};
+export default {};
 </script>
 
 <style scoped>
